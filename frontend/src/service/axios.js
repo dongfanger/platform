@@ -15,7 +15,7 @@ const clearCache = backCode => {
 };
 
 export const axiosInstance = axios.create({
-  baseURL: "/api/v1",
+  baseURL: "",
   timeout: 30000,
   responseType: "json",
   withCredentials: true,

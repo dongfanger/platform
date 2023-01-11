@@ -79,7 +79,6 @@ export default {
             .post("/login", params, {
               headers: {
                 Authorization: "none",
-                "content-type": "application/x-www-form-urlencoded"
               },
             })
             .then(res => {
