@@ -85,7 +85,7 @@ export default {
       this.$http.get(`/users/${this.id}`).then(({ data }) => {
         this.userForm.username = data.data.username;
         this.userForm.nickname = data.data.nickname;
-        this.userForm.isSuperuser = data.data.is_superuser;
+        this.userForm.isSuperuser = data.data.isSuperuser;
       });
     },
     onResetForm() {
@@ -112,7 +112,7 @@ export default {
       let params = {
         username,
         nickname,
-        is_superuser: isSuperuser,
+        isSuperuser,
         password
       };
       let $method = "post";

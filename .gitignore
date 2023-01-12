@@ -251,3 +251,7 @@ fabric.properties
 .idea/
 
 target/
+
+.vscode/
+
+.venv/

@@ -32,6 +32,15 @@ public class UserController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
 
+    @RequestMapping(value = "", method = RequestMethod.GET)
+    public ResponseEntity<?> listUser(@RequestParam(value = "keyword", defaultValue = "") String keyword,
+                                      @RequestParam(value = "page", defaultValue = "1") Integer pageNum,
+                                      @RequestParam(value = "perPage", defaultValue = "10") Integer pageSize) {
+        PageInfo<UserResp> userResultList = userService.listUser(keyword, pageNum, pageSize);
+
+        return new ResponseEntity<>(CommonResult.success(CommonPage.restPage(userResultList)), HttpStatus.OK);
+    }
+
     @RequestMapping(value = "listAll", method = RequestMethod.GET)
     public ResponseEntity<List<User>> getUserList() {
         return new ResponseEntity<>(userService.listAllUser(), HttpStatus.OK);
@@ -50,7 +59,7 @@ public class UserController {
     public ResponseEntity<?> updateUser(@PathVariable("id") Long id, @RequestBody User user, BindingResult result) {
         User updatedUser = userService.updateUser(id, user);
         if (updatedUser != null) {
-            return new ResponseEntity<>(updatedUser, HttpStatus.OK);
+            return new ResponseEntity<>(CommonResult.success(updatedUser), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(CommonResult.failed("操作失败"), HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -72,18 +81,9 @@ public class UserController {
         return new ResponseEntity<>(CommonResult.success("true"), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/list", method = RequestMethod.GET)
-    public ResponseEntity<?> listUser(@RequestParam(value = "keyword", defaultValue = "") String keyword,
-                                      @RequestParam(value = "page", defaultValue = "1") Integer pageNum,
-                                      @RequestParam(value = "perPage", defaultValue = "10") Integer pageSize) {
-        PageInfo<UserResp> userResultList = userService.listUser(keyword, pageNum, pageSize);
-
-        return new ResponseEntity<>(CommonPage.restPage(userResultList), HttpStatus.OK);
-    }
-
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public ResponseEntity<?> user(@PathVariable("id") Long id) {
-        return new ResponseEntity<>(userService.getUser(id), HttpStatus.OK);
+        return new ResponseEntity<>(CommonResult.success(userService.getUser(id)), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/update-password", method = RequestMethod.PUT)

@@ -93,7 +93,7 @@ export default {
     },
     initAuth() {
       var flag = false;
-      if (this.userInfo.is_superuser === 1) {
+      if (this.userInfo.isSuperuser === 1) {
         flag = true;
       }
       let authList = [

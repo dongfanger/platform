@@ -98,7 +98,7 @@ export default {
       delConfirm(
         `确认重置此用户的密码？`,
         () => {
-          this.$http.post(`/users/${id}/reset-password`).then(({ data }) => {
+          this.$http.put(`/users/${id}/reset-password`).then(({ data }) => {
             if (data) {
               delConfirm(`登录密码已重置为默认密码“${data.data}”`, null, {
                 confirmButtonText: "我已知晓",
@@ -154,7 +154,7 @@ export default {
       this.$http
         .get("/users", { params: filterNullValue(params) })
         .then(({ data: { data } }) => {
-          let items = data.items;
+          let items = data.list;
           let totalNum = data.total;
           this.pageParams.totalNum = totalNum;
           if (items) {
@@ -163,7 +163,7 @@ export default {
                 id: item.id,
                 username: item.username,
                 nickname: item.nickname,
-                isSuperuser: item.is_superuser,
+                isSuperuser: item.isSuperuser,
               };
             });
           } else {

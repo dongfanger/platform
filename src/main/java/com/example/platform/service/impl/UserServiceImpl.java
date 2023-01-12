@@ -58,6 +58,7 @@ public class UserServiceImpl implements UserService {
         User user = userMapper.selectByPrimaryKey(id);
         user.setUsername(userReq.getUsername());
         user.setNickname(userReq.getNickname());
+        user.setIsSuperuser(userReq.getIsSuperuser());
         user.setPassword(passwordEncoder.encode(userReq.getPassword()));
         int count = userMapper.updateByPrimaryKeySelective(user);
         return count == 1 ? user : null;
@@ -75,7 +76,9 @@ public class UserServiceImpl implements UserService {
         if (keyword.length() > 0) {
             UserExample example = new UserExample();
             UserExample.Criteria cUsername = example.createCriteria().andUsernameEqualTo(keyword);
+            UserExample.Criteria cNickname = example.createCriteria().andNicknameEqualTo(keyword);
             example.or(cUsername);
+            example.or(cNickname);
             userList = userMapper.selectByExample(example);
         } else {
             userList = userMapper.selectByExample(new UserExample());
@@ -179,7 +182,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public String resetPassword(Long id) {
-        String password = "qa123456";
+        String password = "123456";
         User user = userMapper.selectByPrimaryKey(id);
         String encodePassword = passwordEncoder.encode(password);
         user.setPassword(encodePassword);
